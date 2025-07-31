@@ -31,6 +31,7 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
+                    @auth
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
                             <a class="{{ request()->routeIs('tasks.*') ? 'active' : '' }} nav-link" href="{{ route('tasks.index') }}">
@@ -38,6 +39,7 @@
                             </a>
                         </li>
                     </ul>
+                    @endauth
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
