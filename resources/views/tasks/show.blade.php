@@ -35,8 +35,8 @@
                         <div class="col-xs-12 col-sm-12 col-md-12 mt-2">
                             <div class="form-group">
                                 <strong>Status:</strong> <br />
-                                <span style="font-size: 0.9em;" class="badge {{ $task->status == 'done' ? 'bg-success' : ($task->status == 'in_progress' ? 'bg-warning text-dark' : 'bg-info') }}">
-                                    {{ ucwords(str_replace("_", " ", $task->status)) }}
+                                <span style="font-size: 0.9em;" class="badge {{ $task->status | statusColor }}">
+                                    {{ $task->status | wholeWords }}
                                 </span>
                             </div>
                         </div>

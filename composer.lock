@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5055e400547bf949067c9e19db777e0b",
+    "content-hash": "ff1ab32784ed0a6ece98de9fa5e019c6",
     "packages": [
         {
             "name": "brick/math",
@@ -134,6 +134,62 @@
                 }
             ],
             "time": "2024-02-09T16:56:22+00:00"
+        },
+        {
+            "name": "conedevelopment/blade-filters",
+            "version": "v1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/conedevelopment/blade-filters.git",
+                "reference": "bf544e8af440e2eb3c36501c4037e61a3530be08"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/conedevelopment/blade-filters/zipball/bf544e8af440e2eb3c36501c4037e61a3530be08",
+                "reference": "bf544e8af440e2eb3c36501c4037e61a3530be08",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^8.0 || ^9.0 || ^10.0 || ^11.0 || ^12.0",
+                "illuminate/view": "^8.0 || ^9.0 || ^10.0 || ^11.0 || ^12.0",
+                "php": "^7.3 || ^8.0"
+            },
+            "require-dev": {
+                "laravel/laravel": "^12.0",
+                "phpunit/phpunit": "^9.5 || ^10.5 || ^11.0"
+            },
+            "type": "project",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Pine\\BladeFilters\\BladeFiltersServiceProvider"
+                    ]
+                },
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Pine\\BladeFilters\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Cone Development",
+                    "email": "hello@conedevelopment.com"
+                }
+            ],
+            "description": "Use filters easily in your blade templates.",
+            "support": {
+                "issues": "https://github.com/conedevelopment/blade-filters/issues",
+                "source": "https://github.com/conedevelopment/blade-filters/tree/v1.2.0"
+            },
+            "time": "2025-05-04T12:25:13+00:00"
         },
         {
             "name": "dflydev/dot-access-data",
