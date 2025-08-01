@@ -23,7 +23,6 @@
                             <tr>
                                 <th width="80px">No</th>
                                 <th>Name</th>
-                                <th>Description</th>
                                 <th>Priority</th>
                                 <th width="100px">Status</th>
                                 <th width="100px">Due date</th>
@@ -36,7 +35,6 @@
                             <tr>
                                 <td>{{ ++$i }}</td>
                                 <td>{{ $task->name }}</td>
-                                <td>{{ $task->description }}</td>
                                 <td>{{ ucfirst($task->priority) }}</td>
                                 <td>
                                     <span style="font-size: 0.9em;" class="badge {{ $task->status | statusColor }}">
