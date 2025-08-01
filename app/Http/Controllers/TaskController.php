@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+use DateTime;
+use Exception;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Task;
 use App\Models\User;
+use App\Models\AccessToken;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -117,5 +121,36 @@ class TaskController extends Controller
 
         return redirect()->route('tasks.index')
             ->with('success', 'Task deleted successfully.');
+    }
+
+    public function link(int $taskId): RedirectResponse
+    {
+        $attr = [
+            'task_id' => $taskId,
+            'token' => hash('sha256', time()),
+            'expires_at' => now()->add('15 minutes')->format('Y-m-d H:i:s'),
+        ];
+
+        $accessToken = AccessToken::create($attr);
+
+        return redirect()->route('tasks.show', ['task' => $taskId])
+            ->with('info', route('task.share', ['token' => $accessToken->token]));
+    }
+
+    public function share(string $token): View
+    {
+        try {
+            $accessToken = AccessToken::where('token', $token)->firstOrFail();
+
+            if (now() > new Carbon($accessToken->expires_at)) {
+                abort(403,  'Unauthorized action.');
+            }
+
+            $task = Task::find(intval($accessToken->task_id));
+
+            return view('tasks.show', compact('task'));
+        } catch (Exception $e) {
+            abort(404);
+        }
     }
 }

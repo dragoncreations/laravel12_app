@@ -8,11 +8,11 @@
                 <div class="card-header">{{ __('Show Task') }}</div>
 
                 <div class="card-body">
-
+                    @auth
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                         <a class="btn btn-primary btn-sm" href="{{ route('tasks.index') }}"><i class="fa fa-arrow-left"></i> Back</a>
                     </div>
-
+                    @endauth
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
@@ -46,12 +46,14 @@
                                 {{ $task->priority->label() }}
                             </div>
                         </div>
+                        @if(isset($user))
                         <div class="col-xs-12 col-sm-12 col-md-12 mt-2">
                             <div class="form-group">
                                 <strong>Created By:</strong> <br />
                                 {{ $user->name }}
                             </div>
                         </div>
+                        @endif
                         <div class="col-xs-12 col-sm-12 col-md-12 mt-2">
                             <div class="form-group">
                                 <strong>Created At:</strong> <br />
@@ -64,8 +66,25 @@
                                 {{ $task->updated_at }}
                             </div>
                         </div>
-                    </div>
+                        @auth
+                        <div class="col-xs-12 col-sm-12 col-md-12 mt-2">
+                            <div class="form-group">
+                                <form action="{{ route('task.link',$task->id) }}" method="POST">
 
+                                    @csrf
+                                    @method('POST')
+
+                                    <button type="submit" class="btn btn-info btn-sm">Create link</button>
+                                </form>
+                            </div>
+                            @session('info')
+                            <div class="mt-2 mb-0 alert alert-info" role="alert">
+                                {{ $value }}
+                            </div>
+                            @endsession
+                        </div>
+                        @endauth
+                    </div>
                 </div>
             </div>
         </div>
