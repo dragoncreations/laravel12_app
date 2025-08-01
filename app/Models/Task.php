@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\TaskPriority;
+use App\Enums\TaskStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,14 +11,6 @@ class Task extends Model
 {
     /** @use HasFactory<\Database\Factories\TaskFactory> */
     use HasFactory;
-
-    public const STATUS_TO_DO = 'to_do';
-    public const STATUS_IN_PROGRESS = 'in_progress';
-    public const STATUS_DONE = 'done';
-
-    public const PRIORITY_LOW = 'low';
-    public const PRIORITY_MEDIUM = 'medium';
-    public const PRIORITY_HIGH = 'high';
 
     protected $fillable = [
         'name',
@@ -26,4 +20,17 @@ class Task extends Model
         'priority',
         'status',
     ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'status' => TaskStatus::class,
+            'priority' => TaskPriority::class,
+        ];
+    }
 }

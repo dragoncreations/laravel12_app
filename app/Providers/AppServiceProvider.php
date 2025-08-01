@@ -23,25 +23,5 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Paginator::useBootstrapFive();
-
-        BladeFilters::macro("wholeWords", function ($value) {
-            return ucwords(str_replace("_", " ", $value));
-        });
-
-        BladeFilters::macro("statusColor", function ($value) {
-            switch ($value) {
-                case Task::STATUS_TO_DO:
-                    $class = 'bg-info';
-                    break;
-                case Task::STATUS_IN_PROGRESS:
-                    $class = 'bg-warning text-dark';
-                    break;
-                case Task::STATUS_DONE:
-                    $class = 'bg-success';
-                    break;
-            }
-
-            return $class;
-        });
     }
 }

@@ -35,10 +35,10 @@
                             <tr>
                                 <td>{{ ++$i }}</td>
                                 <td>{{ $task->name }}</td>
-                                <td>{{ ucfirst($task->priority) }}</td>
+                                <td>{{ $task->priority->label() }}</td>
                                 <td>
-                                    <span style="font-size: 0.9em;" class="badge {{ $task->status | statusColor }}">
-                                        {{ $task->status | wholeWords }}
+                                    <span style="font-size: 0.9em;" class="badge bg-{{ $task->status->color() }}">
+                                        {{ $task->status->label() }}
                                     </span>
                                 </td>
                                 <td>{{ $task->due_date }}</td>

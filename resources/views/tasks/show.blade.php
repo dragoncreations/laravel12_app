@@ -35,15 +35,15 @@
                         <div class="col-xs-12 col-sm-12 col-md-12 mt-2">
                             <div class="form-group">
                                 <strong>Status:</strong> <br />
-                                <span style="font-size: 0.9em;" class="badge {{ $task->status | statusColor }}">
-                                    {{ $task->status | wholeWords }}
+                                <span style="font-size: 0.9em;" class="badge bg-{{ $task->status->color() }}">
+                                    {{ $task->status->label()}}
                                 </span>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12 mt-2">
                             <div class="form-group">
                                 <strong>Priority:</strong> <br />
-                                {{ ucfirst($task->priority) }}
+                                {{ $task->priority->label() }}
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12 mt-2">
@@ -65,5 +65,10 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
-                @endsection
+            </div>
+        </div>
+    </div>
+</div>
+@endsection

@@ -60,9 +60,11 @@
                         <div class="mb-3">
                             <label for="inputStatus" class="form-label"><strong>Status:</strong></label>
                             <select name="status" class="form-select @error('status') is-invalid @enderror" id="inputStatus">
-                                <option value="to_do" {{ $task->status == 'to_do' ? 'selected' : '' }}>To do</option>
-                                <option value="in_progress" {{ $task->status == 'in_progress' ? 'selected' : '' }}>In Progress</option>
-                                <option value="done" {{ $task->status == 'done' ? 'selected' : '' }}>Done</option>
+                                @foreach(App\Enums\TaskStatus::cases() as $status)
+                                <option value="{{ $status->value }}" @selected(old('status', $task->status->value) == $status->value)>
+                                    {{ $status->label() }}
+                                </option>
+                                @endforeach
                             </select>
                             @error('status')
                             <div class="form-text text-danger">{{ $message }}</div>
@@ -72,9 +74,11 @@
                         <div class="mb-3">
                             <label for="inputPriority" class="form-label"><strong>Priority:</strong></label>
                             <select name="priority" class="form-select @error('priority') is-invalid @enderror" id="inputPriority">
-                                <option value="low" {{ $task->priority == 'low' ? 'selected' : '' }}>Low</option>
-                                <option value="medium" {{ $task->priority == 'medium' ? 'selected' : '' }}>Medium</option>
-                                <option value="high" {{ $task->priority == 'high' ? 'selected' : '' }}>High</option>
+                                @foreach(App\Enums\TaskPriority::cases() as $priority)
+                                <option value="{{ $priority->value }}" @selected(old('priority', $task->priority->value) == $priority->value)>
+                                    {{ $priority->label() }}
+                                </option>
+                                @endforeach
                             </select>
                             @error('priority')
                             <div class="form-text text-danger">{{ $message }}</div>
