@@ -18,6 +18,37 @@
                         <a class="btn btn-success btn-sm" href="{{ route('tasks.create') }}"> <i class="fa fa-plus"></i> Create New Task</a>
                     </div>
 
+                    <div class="row mt-2">
+                        <div class="col-4">
+                            <label for="status_filter">By Status</label>
+                            <select onchange="document.location=this.options[this.selectedIndex].value" class="form-select" id="status_filter">
+                                <option value={{ route('tasks.index', $queryParams['statusFilter']) }}>All</option>
+                                @foreach(App\Enums\TaskStatus::cases() as $status)
+                                <option value="{{ route('tasks.index', array_merge($queryParams['statusFilter'], ['status' => $status])) }}" @selected(isset($selectedStatus) && $selectedStatus==$status->value)>
+                                    {{ $status->label() }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-4">
+                            <label for="priority_filter">By Priority</label>
+                            <select onchange="document.location=this.options[this.selectedIndex].value" class="form-select" id="priority_filter">
+                                <option value={{ route('tasks.index', $queryParams['priorityFilter']) }}>All</option>
+                                @foreach(App\Enums\TaskPriority::cases() as $priority)
+                                <option value="{{ route('tasks.index', array_merge($queryParams['priorityFilter'], ['priority' => $priority])) }}" @selected(isset($selectedPriority) && $selectedPriority==$priority->value)>
+                                    {{ $priority->label() }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-4">
+                            <label for="due_date_filter">By Due Date</label>
+                            <input onchange="document.location = this.getAttribute('data-url') + this.value" type="date" class="form-control" id="due_date_filter" value="{{ $dueDate }}" data-url="{{ route('tasks.index', array_merge($queryParams['dueDateFilter'], ['dueDate' => ''])) }}">
+                        </div>
+                    </div>
+
                     <table class="table table-bordered table-striped mt-4">
                         <thead>
                             <tr>
@@ -58,7 +89,7 @@
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="4">There are no data.</td>
+                                <td colspan="6">There are no data.</td>
                             </tr>
                             @endforelse
                         </tbody>
