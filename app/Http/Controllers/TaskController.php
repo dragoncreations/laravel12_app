@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
-use DateTime;
 use Exception;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreTaskRequest;
@@ -11,12 +10,15 @@ use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Task;
 use App\Models\User;
 use App\Models\AccessToken;
+use App\Services\TaskEmailReminderService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class TaskController extends Controller
 {
+    public function __construct(private TaskEmailReminderService $taskEmailReminderService) {}
+
     /**
      * Display a listing of the resource.
      */
@@ -77,7 +79,9 @@ class TaskController extends Controller
      */
     public function store(StoreTaskRequest $request): RedirectResponse
     {
-        Task::create($request->validated());
+        $task = Task::create($request->validated());
+
+        $this->taskEmailReminderService->send($task);
 
         return redirect()->route('tasks.index')
             ->with('success', 'Task created successfully.');
@@ -107,6 +111,8 @@ class TaskController extends Controller
     public function update(UpdateTaskRequest $request, Task $task): RedirectResponse
     {
         $task->update($request->validated());
+
+        $this->taskEmailReminderService->send($task);
 
         return redirect()->route('tasks.index')
             ->with('success', 'Task updated successfully.');
