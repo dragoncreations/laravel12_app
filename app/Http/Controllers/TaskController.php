@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use Exception;
+use Spatie\GoogleCalendar\Event;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
@@ -121,6 +122,13 @@ class TaskController extends Controller
 
         $this->taskEmailReminderService->send($task);
 
+        $event = Event::find($task->event_id);
+
+        $event->update([
+            'name' => $task->name,
+            'endDateTime' => Carbon::parse($task->due_date),
+        ]);
+
         return redirect()->route('tasks.index')
             ->with('success', 'Task updated successfully.');
     }
@@ -130,6 +138,10 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
+        $event = Event::find($task->event_id);
+
+        $event->delete();
+
         $task->delete();
 
         return redirect()->route('tasks.index')
@@ -148,6 +160,27 @@ class TaskController extends Controller
 
         return redirect()->route('tasks.show', ['task' => $taskId])
             ->with('info', route('task.share', ['token' => $accessToken->token]));
+    }
+
+    public function addToCalendar(int $taskId): RedirectResponse
+    {
+        try {
+            $task = Task::findOrFail($taskId);
+
+            $newEvent = Event::create([
+                'name' => $task->name,
+                'startDateTime' => Carbon::now(),
+                'endDateTime' => Carbon::parse($task->due_date),
+            ]);
+
+            $task->event_id = $newEvent->id;
+            $task->save();
+
+            return redirect()->route('tasks.show', ['task' => $taskId])
+                ->with('info', "Task added to Google Calendar");
+        } catch (Exception $e) {
+            die($e->getMessage());
+        }
     }
 
     public function share(string $token): View

@@ -77,6 +77,17 @@
                                     <button type="submit" class="btn btn-info btn-sm">Create link</button>
                                 </form>
                             </div>
+                            @if(is_null($task->event_id))
+                            <div class="form-group mt-2">
+                                <form action="{{ route('task.addToCalendar',$task->id) }}" method="POST">
+
+                                    @csrf
+                                    @method('POST')
+
+                                    <button type="submit" class="btn btn-danger btn-sm"><i class="fa-solid fa-calendar"></i> Add to Calendar</button>
+                                </form>
+                            </div>
+                            @endif
                             @session('info')
                             <div class="mt-2 mb-0 alert alert-info" role="alert">
                                 {{ $value }}

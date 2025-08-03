@@ -19,3 +19,5 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::get('/task/{token}', [TaskController::class, 'share'])->name('task.share');
 
 Route::post('/task/link/{id}', [TaskController::class, 'link'])->name('task.link');
+
+Route::post('/task/addToCalendar/{id}', [TaskController::class, 'addToCalendar'])->name('task.addToCalendar');
