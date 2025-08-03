@@ -173,17 +173,23 @@ class TaskController extends Controller
         try {
             $task = Task::findOrFail($taskId);
 
-            $newEvent = Event::create([
-                'name' => $task->name,
-                'startDateTime' => Carbon::now(),
-                'endDateTime' => Carbon::parse($task->due_date),
-            ]);
+            if (Carbon::now()->diffInDays(Carbon::parse($task->due_date)) > 0) {
+                $newEvent = Event::create([
+                    'name' => $task->name,
+                    'startDateTime' => Carbon::now(),
+                    'endDateTime' => Carbon::parse($task->due_date),
+                ]);
 
-            $task->event_id = $newEvent->id;
-            $task->save();
+                $task->event_id = $newEvent->id;
+                $task->save();
+
+                $info = "Task added to Google Calendar";
+            } else {
+                $info = "Unable to add event to calendar";
+            }
 
             return redirect()->route('tasks.show', ['task' => $taskId])
-                ->with('info', "Task added to Google Calendar");
+                ->with('info', $info);
         } catch (Exception $e) {
             die($e->getMessage());
         }
