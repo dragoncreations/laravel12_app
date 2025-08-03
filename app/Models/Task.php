@@ -33,4 +33,22 @@ class Task extends Model implements Auditable
             'priority' => TaskPriority::class,
         ];
     }
+
+    /**
+     * Auditable events.
+     *
+     * @var array
+     */
+    protected $auditEvents = [
+        'updated',
+    ];
+
+    /**
+     * Attributes to exclude from the Audit.
+     *
+     * @var array
+     */
+    protected $auditExclude = [
+        'event_id',
+    ];
 }

@@ -97,7 +97,7 @@
                         @endauth
                     </div>
 
-                    @if($audits)
+                    @if($audits->count() > 0)
                     <div class="row mt-2">
                         <div class="col-12">
                             <table id="datatable" class="table table-bordered table-hover mb-0" style="width:100%">

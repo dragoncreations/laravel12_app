@@ -97,6 +97,7 @@ class TaskController extends Controller
         $user = User::find($task->user_id);
 
         $audits = \OwenIt\Auditing\Models\Audit::with('user')
+            ->where('auditable_id', $task->id)
             ->orderBy('created_at', 'desc')
             ->get();
 
@@ -123,12 +124,14 @@ class TaskController extends Controller
 
         $this->taskEmailReminderService->send($task);
 
-        $event = Event::find($task->event_id);
+        if (null !== $task->event_id) {
+            $event = Event::find($task->event_id);
 
-        $event->update([
-            'name' => $task->name,
-            'endDateTime' => Carbon::parse($task->due_date),
-        ]);
+            $event->update([
+                'name' => $task->name,
+                'endDateTime' => Carbon::parse($task->due_date),
+            ]);
+        }
 
         return redirect()->route('tasks.index')
             ->with('success', 'Task updated successfully.');
