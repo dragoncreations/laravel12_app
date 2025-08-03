@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Models\AccessToken;
 use App\Services\TaskEmailReminderService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
@@ -139,6 +140,8 @@ class TaskController extends Controller
     public function destroy(Task $task)
     {
         $event = Event::find($task->event_id);
+
+        DB::table("jobs")->where("task_id", $task->id)->delete();
 
         $event->delete();
 
