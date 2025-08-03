@@ -4,13 +4,13 @@ namespace App\Models;
 
 use App\Enums\TaskPriority;
 use App\Enums\TaskStatus;
+use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Task extends Model
+class Task extends Model implements Auditable
 {
-    /** @use HasFactory<\Database\Factories\TaskFactory> */
-    use HasFactory;
+    use HasFactory, \OwenIt\Auditing\Auditable;
 
     protected $fillable = [
         'name',

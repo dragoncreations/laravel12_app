@@ -85,6 +85,33 @@
                         </div>
                         @endauth
                     </div>
+
+                    @if($audits)
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <table id="datatable" class="table table-bordered table-hover mb-0" style="width:100%">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>Time</th>
+                                        <th>Changes</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="audits">
+                                    @foreach($audits as $audit)
+                                    <tr>
+                                        <td>{{ $audit->created_at }}</td>
+                                        <td>
+                                            @foreach ($audit->getModified() as $field => $values)
+                                            {{ $field }}: {{ $values['old'] }} -> {{ $values['new'] }} <br />
+                                            @endforeach
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    @endif
                 </div>
             </div>
         </div>

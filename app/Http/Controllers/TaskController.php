@@ -94,7 +94,14 @@ class TaskController extends Controller
     {
         $user = User::find($task->user_id);
 
-        return view('tasks.show', compact('task', 'user'));
+        $audits = \OwenIt\Auditing\Models\Audit::with('user')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view(
+            'tasks.show',
+            compact('task', 'user', 'audits')
+        );
     }
 
     /**
